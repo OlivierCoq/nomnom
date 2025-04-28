@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: NomNom
+    env: node
+    plan: starter
+    buildCommand: npm run build
+    startCommand: npm run start
