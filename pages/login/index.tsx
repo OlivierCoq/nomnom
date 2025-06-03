@@ -58,7 +58,7 @@ export default function LoginPage() {
         <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">Welcome to NomNom 🍳</h1>
 
         {/* SSO Buttons */}
-        <div className="flex flex-col gap-4 mb-6">
+        {/* <div className="flex flex-col gap-4 mb-6">
           <button
             onClick={() => signInWithProvider('google')}
             className="flex items-center justify-center gap-2 bg-white border rounded-lg py-2 text-gray-700 hover:bg-gray-100 transition"
@@ -73,14 +73,14 @@ export default function LoginPage() {
             <FaApple />
             Continue with Apple
           </button>
-        </div>
+        </div> */}
 
         {/* Divider */}
-        <div className="flex items-center gap-4 mb-6">
+        {/* <div className="flex items-center gap-4 mb-6">
           <hr className="flex-grow border-gray-300" />
           <span className="text-zinc-200 text-sm">or continue with email</span>
           <hr className="flex-grow border-gray-300" />
-        </div>
+        </div> */}
 
         {/* Email/Password Form */}
         <form className="flex flex-col gap-4">
@@ -93,7 +93,7 @@ export default function LoginPage() {
             className="px-4 py-2 rounded-lg border focus:outline-none focus:ring-2 focus:ring-orange-400"
             placeholder="you@example.com"
           />
-          <label htmlFor="password" className="text-zinc-400  font-medium">Password</label>
+          <label htmlFor="password" className="text-zinc-200  font-medium">Password</label>
           <input
             id="password"
             type="password"
