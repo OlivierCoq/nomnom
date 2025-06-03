@@ -6,6 +6,24 @@ import { createClient } from '@/utils/supabase/component'
 // Icons
 import { FaGoogle, FaApple } from "react-icons/fa";
 
+// Fonts
+import { Chivo } from "next/font/google";
+import { Roboto } from "next/font/google";
+
+
+const chivo = Chivo({
+  subsets: ["latin"],
+  variable: "--font-chivo",
+  display: "swap",
+  weight: ["400", "500", "600", "700"],
+  style: ["normal", "italic"],
+});
+const roboto = Roboto({
+  subsets: ["latin"],
+  variable: "--font-roboto",
+  display: "swap",
+});
+
 export default function LoginPage() {
   const router = useRouter()
   const supabase = createClient()
@@ -40,10 +58,30 @@ export default function LoginPage() {
   }
 
   async function signInWithProvider(provider: 'google' | 'apple') {
-    const { error } = await supabase.auth.signInWithOAuth({ provider })
+
+    const headers = new Headers()
+    
+
+    const { data, error } = await supabase.auth.signInWithOAuth({ 
+      provider,
+      options: { 
+        redirectTo: `${window.location.origin}/auth/callback`
+      } 
+    })
     if (error) {
       console.error(error)
     }
+    if (data?.url) {
+        router.push(data.url)
+    }
+    // if (data.url) {
+    //   // Redirect to the provider's login page
+    //   window.location.href = data.url
+    //   // Alternatively, you can use the router to redirect
+    //   // router.push(data.url) // use the router for client-side navigation
+    //   // or if you're using a server framework, you can use the redirect API
+    //   // redirect(data.url) // use the redirect API for your server framework
+    // }
   }
 
   return (
@@ -55,24 +93,23 @@ export default function LoginPage() {
       }}
     >
       <div className="bg-white/30 backdrop-blur-md rounded-2xl shadow-xl p-8 w-full max-w-md">
-        <h1 className="text-3xl font-bold text-center mb-6 text-gray-800">Welcome to NomNom 🍳</h1>
-
+        <h1 className={`text-3xl font-bold text-center mb-6 text-gray-800 font-chivo`}>NomNom 🍳</h1>
         {/* SSO Buttons */}
         <div className="flex flex-col gap-4 mb-6">
           <button
             onClick={() => signInWithProvider('google')}
-            className="flex items-center justify-center gap-2 bg-white border rounded-lg py-2 text-gray-700 hover:bg-gray-100 transition"
+            className="flex items-center justify-center gap-2 bg-white border rounded-lg py-2 text-gray-700 hover:bg-gray-100 transition cursor-pointer"
           >
             <FaGoogle className="text-red-500" />
             Continue with Google
           </button>
-          <button
+          {/* <button
             onClick={() => signInWithProvider('apple')}
-            className="flex items-center justify-center gap-2 bg-black text-white rounded-lg py-2 hover:bg-gray-900 transition"
+            className="flex items-center justify-center gap-2 bg-black text-white rounded-lg py-2 hover:bg-gray-900 transition cursor-pointer"
           >
             <FaApple />
             Continue with Apple
-          </button>
+          </button> */}
         </div>
 
         {/* Divider */}
@@ -106,7 +143,7 @@ export default function LoginPage() {
           <button
             type="button"
             onClick={logIn}
-            className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 rounded-lg transition"
+            className="bg-orange-500 hover:bg-orange-600 text-white font-semibold py-2 rounded-lg transition cursor-pointer"
             disabled={loading}
           >
             {loading ? 'Logging in...' : 'Log In'}
@@ -114,7 +151,7 @@ export default function LoginPage() {
           <button
             type="button"
             onClick={signUp}
-            className="border border-orange-500 text-orange-500 hover:bg-orange-100 font-semibold py-2 rounded-lg transition"
+            className="border border-orange-500 text-orange-500 hover:bg-orange-100 font-semibold py-2 rounded-lg transition cursor-pointer"
             disabled={loading}
           >
             {loading ? 'Signing up...' : 'Sign Up'}
